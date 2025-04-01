@@ -9,7 +9,7 @@ mpfacedetect = mp.solutions.face_detection
 # drawing_utils is used to detect landmarks and connections by its model. 
 mpdraw = mp.solutions.drawing_utils
 # .FaceDetection allows us to use the face detection model.
-facedetection = mpfacedetect.FaceDetection()
+facedetection = mpfacedetect.FaceDetection(0.75)
 
 while True:
     success, img = cap.read()

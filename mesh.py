@@ -19,7 +19,7 @@ while True:
 
     if results.multi_face_landmarks:
         for facelms in results.multi_face_landmarks: #lms - landmarks
-            mpdraw.draw_landmarks(img, facelms, mpfacemesh.FACEMESH_CONTOURS) #broke here.
+            mpdraw.draw_landmarks(flippedimg, facelms, mpfacemesh.FACEMESH_CONTOURS) #broke here.
 
     cv2.imshow("image", flippedimg)
     cv2.waitKey(1)

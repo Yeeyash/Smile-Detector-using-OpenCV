@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+import time
 
 cap = cv2.VideoCapture(0)
 
@@ -9,6 +10,15 @@ mpfacemesh = mp.solutions.face_mesh
 facemesh = mpfacemesh.FaceMesh(static_image_mode=False) #This is needed to create objects.
 drawspec = mpdraw.DrawingSpec(color = (0,255,0),thickness=1, circle_radius=2)
 
+
+currentlysimling = False
+previouslysmiling = False
+
+
+
+currenttime = time.time() * 1000 #time in miliseconds.
+lasttime = 0
+debouncetime = 500
 smiled = 0
 
 upperlistindices = [61, 185, 40, 39, 37, 0, 267, 269, 270, 409, 291]
@@ -39,6 +49,9 @@ while True:
     flippedimg = cv2.flip(img, 1)
     imgrgb = cv2.cvtColor(flippedimg, cv2.COLOR_BGR2RGB)
 
+
+
+
     results = facemesh.process(imgrgb)
 
     if results.multi_face_landmarks:
@@ -56,9 +69,16 @@ while True:
                 liplms[idx] = (x,y)
                 cv2.circle(flippedimg, (x,y), 2, (0,255,0), -1)
             
-            if issmiling(liplms):
-                print("smliked")
+            if issmiling(liplms) != previouslysmiling:
+                print("smliked", currenttime, lasttime)
+                if (currenttime - lasttime) > debouncetime:
+                    print(smiled)
+                    smiled = smiled + 1
+                    lasttime = currenttime
 
+            previouslysmiling = issmiling(liplms)
+
+            # printing smiled(smliked) whenever detected, error in timing.
 
             # mpdraw.draw_landmarks(flippedimg, facelms, mpfacemesh.FACEMESH_CONTOURS, drawspec)
 

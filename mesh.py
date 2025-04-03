@@ -9,9 +9,30 @@ mpfacemesh = mp.solutions.face_mesh
 facemesh = mpfacemesh.FaceMesh(static_image_mode=False) #This is needed to create objects.
 drawspec = mpdraw.DrawingSpec(color = (0,255,0),thickness=1, circle_radius=2)
 
-lipindices = list(range(61,68)) + list(range(78,95))
+smiled = 0
+
+upperlistindices = [61, 185, 40, 39, 37, 0, 267, 269, 270, 409, 291]
+lowerlipindices = [146, 91, 181, 84, 17, 314, 405, 321, 375, 291]
+innerupperlistindices = [78, 191, 80, 81, 82, 13, 312, 311, 310, 415, 308]
+innerlowerlipindices = [78, 95, 88, 178, 87, 14, 317, 402, 318, 317, 14]
+
+
+
 
 # FaceMesh(), takes 4 parameters, static_image_mode(False,default), max_num_faces, min_detection_confidence, min_tracking_confidence.
+
+def issmiling(liplandmark):
+    left_mouth_corner = facelms.landmark[61]
+    right_mouth_corner = facelms.landmark[291]
+    upper_lip_top = facelms.landmark[0]
+    lower_lip_bottom = facelms.landmark[17]
+
+    mouth_width = (abs(right_mouth_corner.x - left_mouth_corner.x))
+    mouth_height = (abs(upper_lip_top.y - lower_lip_bottom.y))
+            
+    mouth_ratio = mouth_width/mouth_height if mouth_height != 0 else 0
+
+    return mouth_ratio >2.5 and mouth_height*100 > 3.5
 
 while True:
     success, img = cap.read()
@@ -24,22 +45,22 @@ while True:
         for facelms in results.multi_face_landmarks: #lms - landmarks
             # mpdraw.draw_landmarks(flippedimg, facelms, mpfacemesh.FACEMESH_CONTOURS, drawspec) #broke here.
 
-            left_mouth_corner = facelms.landmark[61]
-            right_mouth_corner = facelms.landmark[291]
-            upper_lip_top = facelms.landmark[0]
-            lower_lip_bottom = facelms.landmark[17]
+            ih, iw, _ = img.shape
 
-            mouth_width = (abs(right_mouth_corner.x - left_mouth_corner.x))
-            mouth_height = (abs(upper_lip_top.y - lower_lip_bottom.y))
+            liplms = {}
+            alllipindx = upperlistindices + lowerlipindices + innerlowerlipindices + innerupperlistindices
+            for idx in alllipindx:
+                landmark = facelms.landmark[idx]
+                x, y = int(landmark.x * iw), int(landmark.y * ih)
+
+                liplms[idx] = (x,y)
+                cv2.circle(flippedimg, (x,y), 2, (0,255,0), -1)
             
-            mouth_ratio = mouth_width/mouth_height if mouth_height != 0 else 0
+            if issmiling(liplms):
+                print("smliked")
 
-            if mouth_ratio >2.5:
-                cv2.putText(img, "smili", (50,50), cv2.FONT_HERSHEY_COMPLEX, 1, (0,255,0), 1)
-                print(mouth_ratio)
-                print("smil")
 
-            mpdraw.draw_landmarks(flippedimg, facelms, mpfacemesh.FACEMESH_CONTOURS, drawspec)
+            # mpdraw.draw_landmarks(flippedimg, facelms, mpfacemesh.FACEMESH_CONTOURS, drawspec)
 
 
     cv2.imshow("image", flippedimg)

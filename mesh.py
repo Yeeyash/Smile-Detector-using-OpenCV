@@ -18,7 +18,7 @@ previouslysmiling = False
 
 
 lasttime = 0
-debouncetime = 500
+debouncetime = 1000
 smiled = 0
 
 upperlistindices = [61, 185, 40, 39, 37, 0, 267, 269, 270, 409, 291]

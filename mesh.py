@@ -16,7 +16,7 @@ previouslysmiling = False
 
 
 
-currenttime = time.time() * 1000 #time in miliseconds.
+
 lasttime = 0
 debouncetime = 500
 smiled = 0
@@ -70,6 +70,7 @@ while True:
                 cv2.circle(flippedimg, (x,y), 2, (0,255,0), -1)
             
             if issmiling(liplms) != previouslysmiling:
+                currenttime = time.time() * 1000 #time in miliseconds.
                 print("smliked", currenttime, lasttime)
                 if (currenttime - lasttime) > debouncetime:
                     print(smiled)

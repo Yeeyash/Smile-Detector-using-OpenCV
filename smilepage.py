@@ -2,6 +2,8 @@ from fastapi import FastAPI, Response
 from fastapi.responses import StreamingResponse
 import cv2
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from fastapi import Request
 from mesh import Smile_Detector
 
 app = FastAPI()
@@ -18,12 +20,21 @@ web = Jinja2Templates(directory="/")
 #                b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n'
 #                )
 
+
+app.mount("/static", StaticFiles(directory="."), name="static")
+temples = Jinja2Templates(directory=".")
+
+@app.get("/")
+async def readitem(request: Request):
+    return temples.TemplateResponse("index.html", {"request": request})
+
+
 @app.get("/videofeed")
 async def videofeed():
     return StreamingResponse(Smile_Detector().main(), media_type="multipart/x-mixed-replace; boundary=frame")
 
-@app.get("/")
-async def reedroot():
-    with open("index.html", "r") as f:
-        html_content = f.read()
-    return Response(content=html_content, media_type="text/html")
+# @app.get("/")
+# async def reedroot():
+#     with open("index.html", "r") as f:
+#         html_content = f.read()
+#     return Response(content=html_content, media_type="text/html")

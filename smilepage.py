@@ -4,7 +4,6 @@ import cv2
 from fastapi.templating import Jinja2Templates
 
 
-
 app = FastAPI()
 
 vid = cv2.VideoCapture(0)

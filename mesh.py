@@ -85,9 +85,12 @@ class Smile_Detector():
                         self.lasttime = currenttime
                 self.previouslysmiling = currentlysmiling
 
+            _, buffer = cv2.imencode('.jpg', flippedimg)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-            cv2.imshow("image", flippedimg)
-            cv2.waitKey(1)
+            # cv2.imshow("image", flippedimg)
+            # cv2.waitKey(1)
 
 
 if __name__ == "__main__":

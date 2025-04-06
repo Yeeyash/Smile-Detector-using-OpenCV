@@ -64,6 +64,13 @@ class Smile_Detector():
         return mouth_ratio > 2.5 and mouth_height*100 > 3.5
 
 
+    def smiledcounter(self, facelms):
+        if self.issmiling(facelms):
+            self.smiled = self.smiled + 1
+            # return self.smiled
+            print(self.smiled)
+
+
     def main(self):
         cap = cv2.VideoCapture(0)
         detector = Smile_Detector()
@@ -73,15 +80,17 @@ class Smile_Detector():
             flippedimg = cv2.flip(img, 1)
 
             flippedimg, facelms = self.lipemesh(flippedimg, True)
-            
+
             if facelms:
                 currentlysmiling = self.issmiling(facelms)
                 
                 if currentlysmiling != self.previouslysmiling:
                     currenttime = time.time() * 1000
                     if (currenttime - self.lasttime) > self.debouncetime:
-                        self.smiled = self.smiled + 1
-                        print(self.smiled, currenttime, self.lasttime)
+                        self.smiledcounter(facelms)
+                        # self.smiled = self.smiled + 1
+                        # print(self.smiled, currenttime, self.lasttime)
+                        # return self.smiled
                         self.lasttime = currenttime
                 self.previouslysmiling = currentlysmiling
 

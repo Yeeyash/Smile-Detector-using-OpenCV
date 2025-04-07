@@ -60,3 +60,9 @@ http://127.0.0.1:8000
 - <a href="https://ai.google.dev/edge/mediapipe/solutions/guide">MediaPipe</a>
 
 - <a href="https://fastapi.tiangolo.com/">FastAPI</a>
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).

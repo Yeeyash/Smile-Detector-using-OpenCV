@@ -78,7 +78,7 @@ class Smile_Detector():
         while True:
             success, img = cap.read()
             flippedimg = cv2.flip(img, 1)
-
+            current_smiles = 0
             flippedimg, facelms = self.lipemesh(flippedimg, True)
 
             if facelms:
@@ -92,10 +92,12 @@ class Smile_Detector():
                         # print(self.smiled, currenttime, self.lasttime)
                         # return self.smiled
                         self.lasttime = currenttime
+                current_smiles = self.smiled
                 self.previouslysmiling = currentlysmiling
 
             _, buffer = cv2.imencode('.jpg', flippedimg)
             frame = buffer.tobytes()
+
             yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
             # cv2.imshow("image", flippedimg)

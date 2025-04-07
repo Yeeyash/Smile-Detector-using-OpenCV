@@ -9,7 +9,14 @@ body{
 }
 
 .videofeed{
-    border: blue solid;
+    border: 10px solid;
+    border-image-source: url(./borderr.png);
+    width: 640px;
+    height: 480px;
+    top: 34;
+    right: 27;
+    bottom: 34;
+    left: 28;
     display: flex;
     flex-direction: column;
     justify-content: center;

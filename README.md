@@ -29,8 +29,7 @@ A real-time smile detection web application built with **OpenCV**, **MediaPipe**
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/Yeeyash/smile-detector.git
-cd smile-detector
+git clone https://github.com/Yeeyash/Smile-Detector-using-OpenCV.git
 ```
 ---
 

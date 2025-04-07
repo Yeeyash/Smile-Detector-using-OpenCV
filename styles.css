@@ -9,14 +9,10 @@ body{
 }
 
 .videofeed{
-    border: 10px solid;
+    border: 20px solid;
     border-image-source: url(./borderr.png);
-    width: 640px;
-    height: 480px;
-    top: 34;
-    right: 27;
-    bottom: 34;
-    left: 28;
+    border-image-slice: 100 fill;
+    border-image-repeat: space;
     display: flex;
     flex-direction: column;
     justify-content: center;

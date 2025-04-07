@@ -55,8 +55,8 @@ http://127.0.0.1:8000
 
 ## 🙌 Acknowledgements
 
-- OpenCV
+- <a href="https://opencv.org/">OpenCV</a>
 
-- MediaPipe
+- <a href="https://ai.google.dev/edge/mediapipe/solutions/guide">MediaPipe</a>
 
-- FastAPI
+- <a href="https://fastapi.tiangolo.com/">FastAPI</a>

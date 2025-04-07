@@ -68,7 +68,7 @@ class Smile_Detector():
         if self.issmiling(facelms):
             self.smiled = self.smiled + 1
             # return self.smiled
-            print(self.smiled)
+            print(f"Smiled: {self.smiled} times.")
 
 
     def main(self):
@@ -88,9 +88,6 @@ class Smile_Detector():
                     currenttime = time.time() * 1000
                     if (currenttime - self.lasttime) > self.debouncetime:
                         self.smiledcounter(facelms)
-                        # self.smiled = self.smiled + 1
-                        # print(self.smiled, currenttime, self.lasttime)
-                        # return self.smiled
                         self.lasttime = currenttime
                 current_smiles = self.smiled
                 self.previouslysmiling = currentlysmiling
@@ -100,14 +97,6 @@ class Smile_Detector():
 
             yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-            # cv2.imshow("image", flippedimg)
-            # cv2.waitKey(1)
-
-
 if __name__ == "__main__":
     detector = Smile_Detector()
     detector.main()
-
-
-
-# trying to show video with mesh firstly.
